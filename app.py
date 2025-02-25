@@ -6,6 +6,7 @@ import streamlit as st
 from PIL import Image
 from google.genai import Client, types
 from selenium import webdriver
+from selenium.common import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -22,18 +23,20 @@ def take_screenshot(url):
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--start-maximized")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type="chromium").install()), options=options)
-    driver.get(url)
 
-    sleep(3)  # Wait for the page to render
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type="chromium").install()), options=options)
+    driver.set_page_load_timeout(10)
+    driver.implicitly_wait(10)
+    driver.get(url)
 
     total_height = driver.execute_script("return document.body.scrollHeight")
     driver.set_window_size(1280, total_height)
+
     screenshot_png = driver.get_screenshot_as_png()
     driver.quit()
+
     image = Image.open(io.BytesIO(screenshot_png))
-    image = image.convert("RGB")
-    return image
+    return image.convert("RGB")
 
 
 def sanitize_url(url):
@@ -61,6 +64,9 @@ def roast(url):
 
     try:
         image = take_screenshot(url)
+    except TimeoutException:
+        st.error("Website timed out.")
+        return
     except:
         st.error("Invalid URL.")
         return
