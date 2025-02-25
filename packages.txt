@@ -1,2 +1,1 @@
-chromium
-chromium-driver
+chromium=114.0.5735.xxx
