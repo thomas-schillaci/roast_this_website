@@ -20,7 +20,7 @@ def roast(url):
     options.add_argument("--disable-gpu")
     options.add_argument("--start-maximized")
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type="chromium").install()), options=options)
     driver.get(url)
 
     sleep(3)
