@@ -13,6 +13,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 if "cache" not in st.session_state:
     st.session_state["cache"] = {}
 
+api_key = os.environ["GEMINI_API_KEY"]
+client = Client(api_key=api_key)
+
 
 def take_screenshot(url):
     options = Options()
@@ -50,7 +53,7 @@ def stream_from_cache(url):
         sleep(.02)
 
 
-def roast(url, api_key):
+def roast(url):
     url = sanitize_url(url)
     if url in st.session_state["cache"]:
         yield from stream_from_cache(url)
@@ -63,9 +66,6 @@ def roast(url, api_key):
         return
 
     prompt = "Roast this website."
-    if not api_key:
-        api_key = os.environ["GEMINI_API_KEY"]
-    client = Client(api_key=api_key)
     response = client.models.generate_content_stream(
         model="gemini-2.0-flash", contents=[prompt, image], config=types.GenerateContentConfig(temperature=1)
     )
@@ -81,7 +81,6 @@ def roast(url, api_key):
 st.set_page_config(page_title="Roast This Website 🔥", page_icon="🔥")
 st.title("🔥 Roast This Website 🔥")
 st.write("Enter a webpage URL and let the AI roast it.")
-api_key = st.text_input("(Optional) Input your own [Gemini API key](https://aistudio.google.com/apikey) if this space is overloaded:")
 with st.form("form"):
     col1, col2 = st.columns([5, 1])
     with col1:
@@ -94,7 +93,7 @@ if go:
         url = "https://huggingface.co"
     with st.spinner("Cooking up the roast"):
         try:
-            result = roast(url, api_key)
+            result = roast(url)
             st.write_stream(result)
         except Exception as e:
             st.error(f"Error: {str(e)}")
