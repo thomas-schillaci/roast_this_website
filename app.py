@@ -1,4 +1,5 @@
 import io
+import os
 from time import sleep
 
 import streamlit as st
@@ -9,7 +10,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-client = Client()
+api_key = os.environ["GEMINI_API_KEY"]
+client = Client(api_key=api_key)
 
 
 def roast(url):
@@ -41,7 +43,6 @@ def roast(url):
 
 
 st.set_page_config(page_title="🔥 AI Roaster", page_icon="🔥")
-
 st.title("🔥 AI Roaster 🔥")
 st.write("Enter a webpage URL and let the AI roast it.")
 url = st.text_input("Website URL", placeholder="https://huggingface.co")
