@@ -67,7 +67,7 @@ def roast(url):
 
     prompt = "Roast this website."
     response = client.models.generate_content_stream(
-        model="gemini-2.0-flash", contents=[prompt, image], config=types.GenerateContentConfig(temperature=1)
+        model="gemini-2.0-flash", contents=[prompt, image], config=types.GenerateContentConfig(temperature=0.5)
     )
 
     full_text = ""
