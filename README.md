@@ -11,4 +11,4 @@ license: mit
 short_description: 🔥 Give it any website url and let the AI roast it 🔥
 ---
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference 
