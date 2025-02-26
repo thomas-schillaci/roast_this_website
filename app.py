@@ -66,10 +66,10 @@ def roast(url):
     try:
         image = take_screenshot(url)
     except TimeoutException:
-        st.error("Website timed out.")
+        st.error("Website timed out, please try again!")
         return
-    except Exception:
-        st.error(traceback.format_exc())
+    except:
+        st.error("Invalid URL.")
         return
 
     prompt = "Roast this website."
