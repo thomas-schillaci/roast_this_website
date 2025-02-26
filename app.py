@@ -104,4 +104,4 @@ if go:
         except Exception as e:
             st.error(f"Error: {str(e)}")
 
-st.write("❤️ Made by [@tschillaciML](https://x.com/tschillaciML).")
+st.write("❤️ Made by [@tschillaciML](https://x.com/tschillaciML) using Gemini.")
