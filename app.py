@@ -1,5 +1,6 @@
 import io
 import os
+import traceback
 from time import sleep
 
 import streamlit as st
@@ -67,8 +68,8 @@ def roast(url):
     except TimeoutException:
         st.error("Website timed out.")
         return
-    except:
-        st.error("Invalid URL.")
+    except Exception:
+        st.error(traceback.format_exc())
         return
 
     prompt = "Roast this website."
